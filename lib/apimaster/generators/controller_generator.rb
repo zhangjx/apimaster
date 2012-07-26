@@ -5,6 +5,7 @@ module Apimaster::Generators
 
     def initialize(runtime_args, runtime_options = {})
       super
+      raise 'Unknown app directory.' unless File.exists?('./Gemfile')
       @app_name     = File.basename(File.expand_path('./'))
       @module_name  = camelize(app_name)
       @name     = args[0]

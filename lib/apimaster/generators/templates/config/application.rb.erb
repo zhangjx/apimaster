@@ -8,9 +8,11 @@ module <%= module_name %>
     use Apimaster::Application
 
     # controllers
-    use BeforesController
-    use IndexController
-    # use YourCountroller
+    <%= module_name %>.constants.each do |k|
+      if k =~ /Controller$/
+        use <%= module_name %>.const_get(k)
+      end
+    end
 
   end
 end

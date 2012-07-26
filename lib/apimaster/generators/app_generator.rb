@@ -17,32 +17,34 @@ module Apimaster::Generators
       record do |m|
         # Ensure appropriate folder(s) exists
         m.directory ''
-        BASEDIRS.each { |path| m.directory path }
-        m.directory "lib/#{app_name}"
+        BASEDIRS.each { |path| m.directory(app_name + '/' + path) }
+        m.directory "#{app_name}/lib/#{app_name}"
 
         # config
-        m.template "config/boot.rb.erb", "config/boot.rb"
-        m.template "config/patches.rb.erb", "config/patches.rb"
-        m.template "config/initializer.rb.erb", "config/initializer.rb"
-        m.template "config/application.rb.erb", "config/application.rb"
-        m.template "config/settings/mongoid.yml.erb", "config/settings/mongoid.yml"
-        m.template "config/settings/app.yml.erb", "config/settings/app.yml"
-        m.template "config/settings/oauth.yml.erb", "config/settings/oauth.yml"
+        templates = {
+          "config/boot.rb.erb" => "config/boot.rb",
+          "config/patches.rb.erb" => "config/patches.rb",
+          "config/initializer.rb.erb" => "config/initializer.rb",
+          "config/application.rb.erb" => "config/application.rb",
+          "config/settings/mongoid.yml.erb" => "config/settings/mongoid.yml",
+          "config/settings/app.yml.erb" => "config/settings/app.yml",
+          "config/settings/oauth.yml.erb" => "config/settings/oauth.yml",
 
-        # Create stubs
-        m.template "config.ru.erb", "config.ru"
-        m.template "gitignore", ".gitignore"
-        m.template "lib/module.rb.erb", "lib/#{app_name}.rb"
-        m.template "app/tasks/test.rake.erb", "app/tasks/test.rake"
-        m.template "app/tasks/stat.rake.erb", "app/tasks/stat.rake"
-        m.template "app/controllers/index_controller.rb.erb", "app/controllers/index_controller.rb"
-        m.template "app/controllers/befores_controller.rb.erb", "app/controllers/befores_controller.rb"
+          # Create stubs
+          "config.ru.erb" => "config.ru",
+          "gitignore" => ".gitignore",
+          "lib/module.rb.erb" => "lib/#{app_name}.rb",
+          "app/tasks/test.rake.erb" => "app/tasks/test.rake",
+          "app/tasks/stat.rake.erb" => "app/tasks/stat.rake",
+          "app/controllers/index_controller.rb.erb" => "app/controllers/index_controller.rb",
+          "app/controllers/befores_controller.rb.erb" => "app/controllers/befores_controller.rb",
 
-        # Test stubs
-        m.template "test/test_helper.rb.erb", "test/test_helper.rb"
+          # Test stubs
+          "test/test_helper.rb.erb" => "test/test_helper.rb"
+        }.each { |k, v| m.template(k, app_name + '/' + v) }
 
         %w(LICENSE Rakefile README.md Gemfile TODO test.watchr).each do |file|
-          m.template file, file
+          m.template file, app_name + '/' + file
         end
       end
     end

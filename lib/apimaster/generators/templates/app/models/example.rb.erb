@@ -3,16 +3,22 @@
 # Copyright (C) 2011-2012  AdMaster, Inc.
 
 module <%= module_name %>
-  class <%= camelize name %> < Apimaster::Mapper
+  class <%= camelize name %>
+    include Apimaster::Mapper
     include Mongoid::Document
 
     field :title, type: String
     field :content, type: String
 
-    attr_options :title, accessor: [:get, :list], required: [:post], optional: [:patch]
-    attr_options :content, accessor: [:get], required: [:post], optional: [:patch]
+    attr_options :title, accessor: [:get, :list], required: [:post],
+                         optional: [:patch]
+    attr_options :content, accessor: [:get], required: [:post],
+                           optional: [:patch]
 
     validates :title, length: { minimum: 2, maximum: 30 }
+
+    # Embedded 1-1
+    # embeds_one :label, class_name: "<%= module_name %>::Label"
 
     class << self
 
