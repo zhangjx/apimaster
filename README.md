@@ -7,8 +7,8 @@ Developing
 ----------
 
     gem install apimaster
-    mkdir your_app_name & cd your_app_name
     apimaster new your_app_name
+    cd your_app_name
     bundle install
 
 Generators
@@ -30,4 +30,9 @@ Watchr
 ------
 
     watchr test.watchr
+
+Run app
+-------
+
+    rackup -p 4567
 
