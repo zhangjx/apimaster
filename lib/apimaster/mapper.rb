@@ -3,8 +3,7 @@
 # Copyright (C) 2011-2012  AdMaster, Inc.
 
 module Apimaster
-  class Mapper
-    #include ::Mongoid::Document
+  module Mapper
 
     def post hash
       save_with_hash hash, :post
@@ -23,7 +22,7 @@ module Apimaster
       if valid?
         save
       else
-        raise InvalidFieldError.new(class_name, errors.keys.first)
+        raise Apimaster::InvalidFieldError.new(class_name, errors.keys.first)
       end
       self
     end
@@ -61,7 +60,8 @@ module Apimaster
       fields = self.class.find_attrs_in_options(:accessor, accessor)
       fields.each do |field|
         if self.respond_to?(field)
-          record[field] = self.send(field)
+          val = self.send(field)
+          record[field] = val.respond_to?(:to_hash) ? val.to_hash(accessor) : val
         else
           raise "Dataset #{self.class} has no method with the name of #{field}"
         end
@@ -73,7 +73,11 @@ module Apimaster
       @class_name ||= self.class.to_s.split("::").last
     end
 
-    class << self
+    def self.included(base)
+      base.extend ClassMethods
+    end
+
+    module ClassMethods
 
       OPTION_TYPES = [:accessor, :required, :optional]
 
