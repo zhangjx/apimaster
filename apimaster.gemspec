@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = 'apimaster'
-  s.version     = '0.0.5'
-  s.date        = '2012-07-12'
+  s.version     = '0.0.6'
+  s.date        = '2012-09-06'
   s.summary     = "ApiMaster!"
   s.description = "A simple restful api framework."
   s.authors     = ["Sun", "Zhang", "Li"]
