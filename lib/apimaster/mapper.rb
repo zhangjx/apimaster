@@ -39,7 +39,7 @@ module Apimaster
           elsif hash.has_key?(field.to_s)
             data[field] = hash[field.to_s]
           else
-            raise Apimaster::MissingFieldError.new(self.class.get_class_name, field) if type == :required
+            raise Apimaster::MissingFieldError.new(class_name, field) if type == :required
           end
         end
       end
