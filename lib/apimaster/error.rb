@@ -24,7 +24,7 @@ module Apimaster
 
   class MissingError < NormalError
     def initialize(resource = nil)
-      super("Resource '#{resource}' does not exist.", 404, :missing, resource)
+      super("Resource '#{resource}' does not exist.", 410, :missing, resource)
     end
   end
 
