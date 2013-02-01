@@ -25,7 +25,7 @@ module Apimaster::Controllers
       json :message => "Internal Server Error"
     end
 
-    not_found do
+    superclass.not_found do
       json message: "Not Found"
     end
 
