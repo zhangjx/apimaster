@@ -52,7 +52,7 @@ module Apimaster
     end
   end
 
-  class RequestError < StandardError
+  class RequestError < NormalError
     def initialize(resource = nil, field = nil)
       super("Problems parsing JSON.", 400, :parse_error, resource, field)
     end
