@@ -61,7 +61,7 @@ module Apimaster
       fields.each do |field|
         if self.respond_to?(field)
           val = self.send(field)
-          record[field] = val.respond_to?(:to_hash) ? val.to_hash(accessor) : val
+          record[field] = (val.respond_to?(:to_hash) and not val.is_a?(Hash)) ? val.to_hash(accessor) : val
         else
           raise "Dataset #{self.class} has no method with the name of #{field}"
         end
