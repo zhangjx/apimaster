@@ -55,6 +55,7 @@ module Apimaster
       self.send name, val
     end
 
+    # to be deleted
     def to_hash accessor = :all
       record = {}
       fields = self.class.find_attrs_in_options(:accessor, accessor)
@@ -62,6 +63,20 @@ module Apimaster
         if self.respond_to?(field)
           val = self.send(field)
           record[field] = (val.respond_to?(:to_hash) and not val.is_a?(Hash)) ? val.to_hash(accessor) : val
+        else
+          raise "Dataset #{self.class} has no method with the name of #{field}"
+        end
+      end
+      record
+    end
+
+    def to_api_hash accessor = :all
+      record = {}
+      fields = self.class.find_attrs_in_options(:accessor, accessor)
+      fields.each do |field|
+        if self.respond_to?(field)
+          val = self.send(field)
+          record[field] = val.respond_to?(:to_api_hash) ? val.to_api_hash(accessor) : val
         else
           raise "Dataset #{self.class} has no method with the name of #{field}"
         end
@@ -105,6 +120,14 @@ module Apimaster
         result = []
         self.each do |val|
           result << val.to_hash(accessor)
+        end
+        result
+      end
+
+      def to_api_hashes accessor = :all
+        result = []
+        self.each do |val|
+          result << val.to_api_hash(accessor)
         end
         result
       end
