@@ -6,8 +6,8 @@ require "rubygems"
 require "bundler"
 require "cgi"
 
-require "./config/patches"
 require "./config/initializer"
+require "./config/patches"
 require "./lib/<%= app_name %>"
 
 Dir.glob "./app/{models,helpers,controllers}/**/*.rb" do |f|
