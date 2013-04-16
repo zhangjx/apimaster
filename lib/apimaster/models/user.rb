@@ -10,6 +10,7 @@ module Apimaster::Models
     attr_accessor :id
     attr_accessor :email
     attr_accessor :username
+    attr_accessor :uuid
 
     def initialize hash
       hash.each do |key, val|
