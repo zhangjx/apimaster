@@ -21,7 +21,11 @@ module Apimaster::Controllers
     end
 
     superclass.error do
-      raise env['sinatra.error'] if development?
+      if respond_to?(:development?)
+        raise env['sinatra.error'] if development?
+      elsif settings.respond_to?(:development?)
+        raise env['sinatra.error'] if settings.development?
+      end
       json :message => "Internal Server Error"
     end
 
